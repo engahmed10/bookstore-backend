@@ -1,0 +1,19 @@
+User
+     -username
+      -email
+      -password
+ITBooks
+   - name
+    -title
+    - year
+    - isbn
+    - price 
+Comment
+    - description
+    - user_id
+    - book_id
+
+User registertion 
+User login
+User logout
+      
