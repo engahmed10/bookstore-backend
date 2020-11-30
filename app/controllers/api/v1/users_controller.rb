@@ -6,17 +6,17 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def create
-       user=User.create(user_params)
-       # byebug
-       if user.valid?
-       
-          render json: UserSerializer.new(user), status: :created
-       else
+       user=User.new(user_params)
+        
+       if user.save
+          token = encode_token({ user_id: user.id })
+          render json: {user:UserSerializer.new(user),token:token}
+        else
          render json: {error:"faild to create user"}
-       end
-    end
+        end
+     end
 
-    def user_params
-      params.permit(:username,:bio,:avatar,:email,:password)
-    end
+      def user_params
+          params.permit(:username,:bio,:avatar,:email,:password)
+       end
 end
