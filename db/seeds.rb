@@ -1,3 +1,5 @@
+#https://api.itbook.store/1.0/search/full%20stack
+#https://www.googleapis.com/books/v1/volumes?q=full%20stack
 require "uri"
 require 'json'
 require "net/http"
@@ -11,29 +13,33 @@ hash = JSON.parse(response.read_body)
 
 
 
- hashOfBooks=hash["items"].map do |i|
-    {
+  hashOfBooks=hash["items"].map do |i|
+      {
+    
+      "title": i["volumeInfo"]["title"],
+      "authors": i["volumeInfo"]["authors"],
+      "image": i["volumeInfo"]["imageLinks"],
+      "isbn": i["volumeInfo"]["industryIdentifiers"],
+      "year": i["volumeInfo"]["publishedDate"],
+      "price": i["saleInfo"]["listPrice"]
   
-    "title": i["volumeInfo"]["title"],
-    "authors": i["volumeInfo"]["authors"],
-    "image": i["volumeInfo"]["imageLinks"],
-    "isbn": i["volumeInfo"]["industryIdentifiers"],
-    "year": i["volumeInfo"]["publishedDate"],
-    "price": i["saleInfo"]["listPrice"]
+      }
+   end
 
-    }
- end
- 
- hashOfBooks.each do |book|
 
-  book[:authors] ||= " " 
-  book[:isbn] ||= " "
-  book[:price] ||= " "
-  book[:image] ||= " "
+   hashOfBooks.each do |book|
 
-        Book.create(title: book[:title],authors: book[:authors][0],
-        image: book[:image]["thumbnail"],isbn: book[:isbn][0]["identifier"],year: book[:year],
-        price: book[:price]["amount"], user: User.first)
-  end
+      book[:authors] ||= " " 
+      book[:isbn] ||= " "
+      book[:price] ||= " "
+      book[:image] ||= " "
+      
+            book=Book.create(title: book[:title],authors: book[:authors][0],
+            image: book[:image]["thumbnail"],isbn: book[:isbn][0]["identifier"],year: book[:year],
+            price: book[:price]["amount"], user: User.first)
+
+            
+      end
+
 
 

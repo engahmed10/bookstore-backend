@@ -27,6 +27,8 @@ gem 'rack-cors'
 ##
 #gem 'active_model_serializers', '0.9.3'
 gem 'fast_jsonapi'
+
+#gem 'active_model_serializers'
 #
 gem "jwt"
 

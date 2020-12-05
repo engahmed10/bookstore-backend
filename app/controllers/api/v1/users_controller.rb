@@ -1,13 +1,12 @@
 class Api::V1::UsersController < ApplicationController
-
-    def index
+   skip_before_action :authorized, only: [:login,:autologin]
+   def index
       users= User.all
       render json: UserSerializer.new(users)
     end
 
     def create
        user=User.new(user_params)
-        
        if user.save
           token = encode_token({ user_id: user.id })
           render json: {user:UserSerializer.new(user),token:token}
