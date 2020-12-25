@@ -12,14 +12,17 @@ class Api::V1::SessionsController < ApplicationController
       end
     end
 
+
     def autologin   
       
      if  session_user
-      render json: session_user, status: :accepted
+          token = encode_token({user_id: @user.id})
+          render json: { user:session_user,token:token, status: :accepted}
      else
        render json: {error: 'no user'} 
      end
        
     end
+
 
 end

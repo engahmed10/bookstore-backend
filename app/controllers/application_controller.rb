@@ -7,7 +7,6 @@ class ApplicationController < ActionController::API
     end
   
     def auth_header
-        
       request.headers['HTTP_AUTORIZATION']#.split(' ')[1]
     end
     
@@ -29,7 +28,6 @@ class ApplicationController < ActionController::API
             puts decoded_token.class
             user_id = decoded_token[0]['user_id']
             @user = User.find_by(id: user_id)
-            
         else
             nil 
         end
